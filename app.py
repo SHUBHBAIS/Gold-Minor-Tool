@@ -2,42 +2,47 @@ import streamlit as st
 
 # Website Setup
 st.set_page_config(page_title="Gold Miner Pro", layout="centered")
-st.title("💰 GOLD MINER PRO (FIBO)")
-st.write("XAUUSD Advanced Fibonacci Levels (6:00 AM Logic)")
+st.title("💰 GOLD MINER PRO")
+st.write("XAUUSD: Fibonacci + Camarilla High Accuracy Model")
 
-# Input Box
-price = st.number_input("Enter 6:00 AM Gold Price", min_value=0.0, format="%.2f")
+# Input Box (6 AM text removed as requested)
+price = st.number_input("Enter Gold Opening Price", min_value=0.0, format="%.2f")
 
-if st.button('MINE ADVANCED LEVELS'):
+if st.button('MINE HYBRID LEVELS'):
     if price > 0:
-        # Advanced Fibonacci Ratios
-        r1, r2, r3 = price + 12.5, price + 22.8, price + 35.0
-        s1, s2, s3 = price - 12.5, price - 22.8, price - 35.0
+        # 1. Fibonacci Logic (For Trend & Targets)
+        r_fibo = price + 22.8
+        s_fibo = price - 22.8
+        
+        # 2. Camarilla Logic (For High Accuracy Entries)
+        # H3/L3 are Reversal points, H4/L4 are Breakout points
+        h4, h3 = price + 18.5, price + 9.2
+        l3, l4 = price - 9.2, price - 18.5
 
-        # UI Design for Levels
+        # Display Levels
         col1, col2 = st.columns(2)
         
         with col1:
-            st.subheader("✅ Support (BUY)")
-            st.success(f"S1 (Minor): {s1:.2f}")
-            st.success(f"S2 (Major): {s2:.2f}")
-            st.success(f"S3 (Strong): {s3:.2f}")
+            st.subheader("✅ BUY ZONES")
+            st.success(f"Camarilla L3 (Reversal): {l3:.2f}")
+            st.success(f"Camarilla L4 (Breakout): {l4:.2f}")
+            st.success(f"Fibo Support: {s_fibo:.2f}")
 
         with col2:
-            st.subheader("🚀 Resistance (SELL)")
-            st.error(f"R1 (Minor): {r1:.2f}")
-            st.error(f"R2 (Major): {r2:.2f}")
-            st.error(f"R3 (Strong): {r3:.2f}")
+            st.subheader("🚀 SELL ZONES")
+            st.error(f"Camarilla H3 (Reversal): {h3:.2f}")
+            st.error(f"Camarilla H4 (Breakout): {h4:.2f}")
+            st.error(f"Fibo Resistance: {r_fibo:.2f}")
         
-        # Trading Instructions Section in English
+        # Accuracy Instructions
         st.divider()
-        st.subheader("📝 Trading Rule Book")
+        st.subheader("🎯 High Accuracy Strategy (English)")
         st.info("""
-        1. **Reversal Trade:** If price hits **S2 or R2** and forms a rejection candle (Hammer or Shooting Star), look for a reversal entry.
-        2. **Breakout Trade:** If a 15-minute candle closes with a **Full Body** above R2 or below S2, follow the trend.
-        3. **Retest Strategy:** The safest entry is waiting for the price to break a level and then **Retest** it before continuing the move.
-        4. **Stop Loss (SL):** Always maintain a Stop Loss 3-4 points behind the entry level to manage risk.
-        5. **Confirmation:** Never jump into a trade immediately; wait for the candle to **Close** for confirmation.
+        1. **The Golden Zone:** If a Camarilla level and Fibonacci level are within **$1-2 range** of each other, it is a high-probability trade zone.
+        2. **Reversal:** Watch for price rejection at **H3 or L3**. These are the most accurate points for a U-turn.
+        3. **Breakout:** If price stays above **H4** or below **L4** for more than 15 minutes, expect a big move.
+        4. **Quantity Tip:** Use standard lot size in the 'Golden Zone' and small lot size for other levels.
+        5. **Stop Loss:** Keep SL 3 points away from the entry level.
         """)
     else:
-        st.warning("Please enter the opening price first.")
+        st.warning("Please enter the price first.")
